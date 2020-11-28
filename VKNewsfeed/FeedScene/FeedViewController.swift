@@ -1,19 +1,18 @@
 //
-//  ViewController.swift
+//  FeedViewController.swift
 //  VKNewsfeed
 //
 //  Created by Ростислав Ермаченков on 28.11.2020.
 //
 
+import Foundation
 import UIKit
 
-class ViewController: UIViewController {
-
+class FeedViewController: UIViewController {
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        
+        view.backgroundColor = .systemBlue
     }
-
-
 }
-
