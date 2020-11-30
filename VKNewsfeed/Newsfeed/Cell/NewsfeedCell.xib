@@ -44,7 +44,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </view>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Vte-mS-gHv">
-                        <rect key="frame" x="9" y="55" width="356" height="104"/>
+                        <rect key="frame" x="9" y="55" width="356" height="50"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
@@ -130,6 +130,10 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </view>
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="a4t-xS-cA3" customClass="WebImageView" customModule="VKNewsfeed" customModuleProvider="target">
+                        <rect key="frame" x="9" y="101" width="346" height="59"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                    </imageView>
                 </subviews>
             </tableViewCellContentView>
             <connections>
@@ -138,11 +142,12 @@
                 <outlet property="iconImageView" destination="hwP-iE-M16" id="e5J-dA-Imi"/>
                 <outlet property="likesLabel" destination="661-z6-k7S" id="HoL-Lv-S5S"/>
                 <outlet property="namelabel" destination="rk3-1q-Xez" id="oQA-WW-ApN"/>
+                <outlet property="postImageView" destination="a4t-xS-cA3" id="uWN-V3-8zm"/>
                 <outlet property="postlabel" destination="Vte-mS-gHv" id="vt8-bu-RW9"/>
                 <outlet property="shareslabel" destination="Ge5-yx-aIn" id="m5W-Ei-IDh"/>
                 <outlet property="viewsLabel" destination="xEm-wD-Aoe" id="qsM-4y-yto"/>
             </connections>
-            <point key="canvasLocation" x="-127.2" y="179.91004497751126"/>
+            <point key="canvasLocation" x="-128.2608695652174" y="179.46428571428569"/>
         </tableViewCell>
     </objects>
     <resources>
