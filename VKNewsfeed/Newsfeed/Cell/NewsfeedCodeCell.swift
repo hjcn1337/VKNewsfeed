@@ -44,7 +44,7 @@ final class NewsfeedCodeCell: UITableViewCell {
     }()
     
     let moreTextButton: UIButton = {
-        let button = UIButton(type: .custom)
+       let button = UIButton()
         button.titleLabel?.font = UIFont.systemFont(ofSize: 15, weight: .medium)
         button.setTitleColor(#colorLiteral(red: 0.4012392163, green: 0.6231879592, blue: 0.8316264749, alpha: 1), for: .normal)
         button.contentHorizontalAlignment = .left
@@ -52,6 +52,8 @@ final class NewsfeedCodeCell: UITableViewCell {
         button.setTitle("Показать полностью...", for: .normal)
         return button
     }()
+    
+    let galleryCollectionView = GalleryCollectionView()
     
     let postImageView: WebImageView = {
         let imageView = WebImageView()
@@ -209,7 +211,6 @@ final class NewsfeedCodeCell: UITableViewCell {
     
     @objc func moreTextButtonTouch() {
         delegate?.revealPost(for: self)
-        print("ya najal!!!")
     }
     
     func set(viewModel: FeedCellViewModel) {
@@ -224,15 +225,26 @@ final class NewsfeedCodeCell: UITableViewCell {
         viewsLabel.text = viewModel.views
         
         postlabel.frame = viewModel.sizes.postLabelFrame
-        postImageView.frame = viewModel.sizes.attachmentFrame
+        
         bottomView.frame = viewModel.sizes.bottomViewFrame
         moreTextButton.frame = viewModel.sizes.moreTextButtonFrame
         
-        if let photoAttachment = viewModel.photoAttachement {
-            postImageView.set(imageURL: photoAttachment.photoUrlString)
+        if let photoAttachment = viewModel.photoAttachments.first, viewModel.photoAttachments.count == 1 {
             postImageView.isHidden = false
-        } else {
+            galleryCollectionView.isHidden = true
+            postImageView.set(imageURL: photoAttachment.photoUrlString)
+            postImageView.frame = viewModel.sizes.attachmentFrame
+        } else if viewModel.photoAttachments.count > 1 {
             postImageView.isHidden = true
+            galleryCollectionView.isHidden = false
+            galleryCollectionView.frame = viewModel.sizes.attachmentFrame
+            galleryCollectionView.set(photos: viewModel.photoAttachments)
+            
+            print("dsdsdsfere")
+        }
+        else {
+            postImageView.isHidden = true
+            galleryCollectionView.isHidden = true
         }
     }
     
@@ -335,6 +347,7 @@ final class NewsfeedCodeCell: UITableViewCell {
         cardView.addSubview(postlabel)
         cardView.addSubview(moreTextButton)
         cardView.addSubview(postImageView)
+        cardView.addSubview(galleryCollectionView)
         cardView.addSubview(bottomView)
         
         // topView constraints
