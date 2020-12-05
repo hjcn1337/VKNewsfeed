@@ -12,14 +12,13 @@ protocol NewsfeedDisplayLogic: class {
   func displayData(viewModel: Newsfeed.Model.ViewModel.ViewModelData)
 }
 
-class NewsfeedViewController: UIViewController, NewsfeedDisplayLogic {
-
+class NewsfeedViewController: UIViewController, NewsfeedDisplayLogic, NewsfeedCodeCellDelegate {
+    
   var interactor: NewsfeedBusinessLogic?
   var router: (NSObjectProtocol & NewsfeedRoutingLogic)?
     
     private var feedViewModel = FeedViewModel.init(cells: [])
   
-
     @IBOutlet weak var table: UITableView!
     
     // MARK: Setup
@@ -47,6 +46,7 @@ class NewsfeedViewController: UIViewController, NewsfeedDisplayLogic {
     setup()
     
     table.register(UINib(nibName: "NewsfeedCell", bundle: nil), forCellReuseIdentifier: NewsfeedCell.reuseId)
+    table.register(NewsfeedCodeCell.self, forCellReuseIdentifier: NewsfeedCodeCell.reuseId)
     
     table.separatorStyle = .none
     table.backgroundColor = .clear
@@ -63,7 +63,14 @@ class NewsfeedViewController: UIViewController, NewsfeedDisplayLogic {
         table.reloadData()
     }
   }
-  
+    
+    // MARK: NewsfeedCodeCellDelegate
+    
+    func revealPost(for cell: NewsfeedCodeCell) {
+        guard let indexPath = table.indexPath(for: cell) else { return }
+        let cellViewModel = feedViewModel.cells[indexPath.row]
+        interactor?.makeRequest(request: Newsfeed.Model.Request.RequestType.revealPostIds(postId: cellViewModel.postId))
+    }
 }
 
 extension NewsfeedViewController: UITableViewDelegate, UITableViewDataSource {
@@ -73,9 +80,12 @@ extension NewsfeedViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: NewsfeedCell.reuseId, for: indexPath) as! NewsfeedCell
+        // переключение между двумя различными походами к созданию ячейки, оба работают одинаково
+        //let cell = tableView.dequeueReusableCell(withIdentifier: NewsfeedCell.reuseId, for: indexPath) as! NewsfeedCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: NewsfeedCodeCell.reuseId, for: indexPath) as! NewsfeedCodeCell
         let cellViewModel = feedViewModel.cells[indexPath.row]
         cell.set(viewModel: cellViewModel)
+        cell.delegate = self
         return cell
     }
     
@@ -85,6 +95,9 @@ extension NewsfeedViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     
-    
+    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+        let cellViewModel = feedViewModel.cells[indexPath.row]
+        return cellViewModel.sizes.totalHeight
+    }
     
 }

@@ -25,19 +25,20 @@ class NewsfeedPresenter: NewsfeedPresentationLogic {
         return dt
     }()
   
-  func presentData(response: Newsfeed.Model.Response.ResponseType) {
-  
-    switch response {
-    case .presentNewsfeed(let feed):
-        let cells = feed.items.map { (feedItem) in
-            cellViewModel(from: feedItem, profiles: feed.profiles, groups: feed.groups)
-        }
-        let feedViewModel = FeedViewModel.init(cells: cells)
-        viewController?.displayData(viewModel: Newsfeed.Model.ViewModel.ViewModelData.displayNewsfeed(feedViewModel: feedViewModel))
-    }
-  }
+    func presentData(response: Newsfeed.Model.Response.ResponseType) {
     
-    private func cellViewModel(from feedItem: FeedItem, profiles: [Profile], groups: [Group]) -> FeedViewModel.Cell {
+      switch response {
+      case .presentNewsfeed(let feed, let revealdedPostIds):
+                  
+          let cells = feed.items.map { (feedItem) in
+              cellViewModel(from: feedItem, profiles: feed.profiles, groups: feed.groups, revealdedPostIds: revealdedPostIds)
+          }
+          let feedViewModel = FeedViewModel.init(cells: cells)
+          viewController?.displayData(viewModel: Newsfeed.Model.ViewModel.ViewModelData.displayNewsfeed(feedViewModel: feedViewModel))
+      }
+    }
+    
+    private func cellViewModel(from feedItem: FeedItem, profiles: [Profile], groups: [Group], revealdedPostIds: [Int]) -> FeedViewModel.Cell {
         
         let profile = self.profile(for: feedItem.sourceId, profiles: profiles, groups: groups)
         
@@ -46,9 +47,16 @@ class NewsfeedPresenter: NewsfeedPresentationLogic {
         let date = Date(timeIntervalSince1970: feedItem.date)
         let dateTitle = dateFormatter.string(from: date)
         
-        let sizes = cellLayoutCalculator.sizes(postText: feedItem.text, photoAttachment: photoAttachment)
+        let isFullSized = revealdedPostIds.contains { (postId) -> Bool in
+            return postId == feedItem.postId
+        }
         
-        return FeedViewModel.Cell.init(iconUrlString: profile.photo,
+        //let isFullSized = revealdedPostIds.contains(feedItem.postId) // краткий вариант записи
+        
+        let sizes = cellLayoutCalculator.sizes(postText: feedItem.text, photoAttachment: photoAttachment, isFullSizedPost: isFullSized)
+        
+        return FeedViewModel.Cell.init(postId: feedItem.postId,
+                                       iconUrlString: profile.photo,
                                        name: profile.name,
                                        date: dateTitle,
                                        text: feedItem.text,
@@ -56,7 +64,7 @@ class NewsfeedPresenter: NewsfeedPresentationLogic {
                                        comments: String(feedItem.comments?.count ?? 0),
                                        shares: String(feedItem.reposts?.count ?? 0),
                                        views: String(feedItem.views?.count ?? 0),
-                                       photoAttachment: photoAttachment,
+                                       photoAttachement: photoAttachment,
                                        sizes: sizes)
     }
     
@@ -70,13 +78,13 @@ class NewsfeedPresenter: NewsfeedPresentationLogic {
         return profileRepresentable!
     }
     
-    private func photoAttachment(feedItem: FeedItem) -> FeedViewModel.FeedCellPhotoAttachement? {
+    private func photoAttachment(feedItem: FeedItem) -> FeedViewModel.FeedCellPhotoAttachment? {
         guard let photos = feedItem.attachments?.compactMap({ (attachment) in
             attachment.photo
         }), let firstPhoto = photos.first else {
             return nil
         }
-        return FeedViewModel.FeedCellPhotoAttachement.init(photoUrlString: firstPhoto.srcBIG, width: firstPhoto.width, height: firstPhoto.height)
+        return FeedViewModel.FeedCellPhotoAttachment.init(photoUrlString: firstPhoto.srcBIG, width: firstPhoto.width, height: firstPhoto.height)
     }
         
 }

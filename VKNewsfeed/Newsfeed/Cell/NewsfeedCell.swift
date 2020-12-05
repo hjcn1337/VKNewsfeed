@@ -17,7 +17,7 @@ protocol FeedCellViewModel {
     var comments: String? { get }
     var shares: String? { get }
     var views: String? { get }
-    var photoAttachment: FeedCellPhotoAttachmentViewModel? { get }
+    var photoAttachement: FeedCellPhotoAttachmentViewModel? { get }
     var sizes: FeedCellSizes { get }
 }
 
@@ -26,20 +26,20 @@ protocol FeedCellSizes {
     var attachmentFrame: CGRect { get }
     var bottomViewFrame: CGRect { get }
     var totalHeight: CGFloat { get }
+    var moreTextButtonFrame: CGRect { get }
 }
 
 protocol FeedCellPhotoAttachmentViewModel {
     var photoUrlString: String? { get }
     var width: Int { get }
     var height: Int { get }
-    
 }
 
 class NewsfeedCell: UITableViewCell {
     
     static let reuseId = "NewsfeedCell"
-    @IBOutlet weak var cardView: UIView!
     
+    @IBOutlet weak var cardView: UIView!
     @IBOutlet weak var iconImageView: WebImageView!
     @IBOutlet weak var namelabel: UILabel!
     @IBOutlet weak var dateLabel: UILabel!
@@ -83,12 +83,11 @@ class NewsfeedCell: UITableViewCell {
         postImageView.frame = viewModel.sizes.attachmentFrame
         bottomView.frame = viewModel.sizes.bottomViewFrame
         
-        if let photoAttachment = viewModel.photoAttachment {
+        if let photoAttachment = viewModel.photoAttachement {
             postImageView.set(imageURL: photoAttachment.photoUrlString)
             postImageView.isHidden = false
         } else {
             postImageView.isHidden = true
-            
         }
     }
     
