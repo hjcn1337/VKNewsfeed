@@ -19,7 +19,6 @@ class AuthViewController: UIViewController {
         super.viewDidLoad()
         
         authService = SceneDelegate.shared().authService
-        view.backgroundColor = .red
     }
 
 

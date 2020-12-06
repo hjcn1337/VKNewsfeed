@@ -377,7 +377,11 @@ final class NewsfeedCodeCell: UITableViewCell {
     }
     
      private func overlayFirstLayer() {
-        addSubview(cardView)
+        if #available(iOS 14.0, *) {
+            contentView.addSubview(cardView)
+        } else {
+            addSubview(cardView)
+        }
         
         // cardView constraints
         cardView.fillSuperview(padding: Constants.cardInsets)
