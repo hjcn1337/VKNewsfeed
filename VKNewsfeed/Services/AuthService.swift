@@ -32,8 +32,13 @@ class AuthService: NSObject, VKSdkDelegate, VKSdkUIDelegate {
         return VKSdk.accessToken()?.accessToken
     }
     
+    var userId: String? {
+        return VKSdk.accessToken()?.userId
+    }
+    
     func wakeUpSession() {
-        let scope = ["offline, wall, friends"]
+        //let scope = ["wall, friends"]
+        let scope = ["offline"]
         VKSdk.wakeUpSession(scope) { [delegate] (state, error) in
             switch state {
             case .initialized:

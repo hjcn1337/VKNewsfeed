@@ -32,8 +32,15 @@ class NewsfeedPresenter: NewsfeedPresentationLogic {
         let cells = feed.items.map { (feedItem) in
             cellViewModel(from: feedItem, profiles: feed.profiles, groups: feed.groups, revealdedPostIds: revealdedPostIds)
         }
-        let feedViewModel = FeedViewModel.init(cells: cells)
+        
+        let footerTitle = String.localizedStringWithFormat(NSLocalizedString("newsfeed cells count", comment: ""), cells.count)
+        let feedViewModel = FeedViewModel.init(cells: cells, footerTitle: footerTitle)
         viewController?.displayData(viewModel: Newsfeed.Model.ViewModel.ViewModelData.displayNewsfeed(feedViewModel: feedViewModel))
+    case .presentUserInfo(let user):
+        let userViewModel = UserViewModel.init(photoUrlString: user?.photo100)
+        viewController?.displayData(viewModel: Newsfeed.Model.ViewModel.ViewModelData.displayUser(userViewModel: userViewModel))
+    case .presentFooterLoader:
+        viewController?.displayData(viewModel: Newsfeed.Model.ViewModel.ViewModelData.displayFooterLoader)
     }
   }
     
@@ -54,25 +61,38 @@ class NewsfeedPresenter: NewsfeedPresentationLogic {
         
         let sizes = cellLayoutCalculator.sizes(postText: feedItem.text, photoAttachments: photoAttachments, isFullSizedPost: isFullSized)
         
+        let postText = feedItem.text?.replacingOccurrences(of: "<br>", with: "\n")
+        
         return FeedViewModel.Cell.init(postId: feedItem.postId,
                                        iconUrlString: profile.photo,
                                        name: profile.name,
                                        date: dateTitle,
-                                       text: feedItem.text,
-                                       likes: String(feedItem.likes?.count ?? 0),
-                                       comments: String(feedItem.comments?.count ?? 0),
-                                       shares: String(feedItem.reposts?.count ?? 0),
-                                       views: String(feedItem.views?.count ?? 0),
+                                       text: postText,
+                                       likes: formattedCounter(feedItem.likes?.count),
+                                       comments: formattedCounter(feedItem.comments?.count),
+                                       shares: formattedCounter(feedItem.reposts?.count),
+                                       views: formattedCounter(feedItem.views?.count),
                                        photoAttachments: photoAttachments,
                                        sizes: sizes)
     }
     
-    private func profile(for sourceId: Int, profiles: [Profile], groups: [Group]) -> ProfileRepresentable {
+    private func formattedCounter(_ counter: Int?) -> String? {
+        guard let counter = counter, counter > 0 else { return nil }
+        var counterString = String(counter)
+        if 4...6 ~= counterString.count {
+            counterString = String(counterString.dropLast(3)) + "K"
+        } else if counterString.count > 6 {
+            counterString = String(counterString.dropLast(6)) + "M"
+        }
+        return counterString
+    }
+    
+    private func profile(for sourseId: Int, profiles: [Profile], groups: [Group]) -> ProfileRepresenatable {
         
-        let profilesOrGroups: [ProfileRepresentable] = sourceId >= 0 ? profiles : groups
-        let normalSourceId = sourceId >= 0 ? sourceId : -sourceId
+        let profilesOrGroups: [ProfileRepresenatable] = sourseId >= 0 ? profiles : groups
+        let normalSourseId = sourseId >= 0 ? sourseId : -sourseId
         let profileRepresenatable = profilesOrGroups.first { (myProfileRepresenatable) -> Bool in
-            myProfileRepresenatable.id == normalSourceId
+            myProfileRepresenatable.id == normalSourseId
         }
         return profileRepresenatable!
     }

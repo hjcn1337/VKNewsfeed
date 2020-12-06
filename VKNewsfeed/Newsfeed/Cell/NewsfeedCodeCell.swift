@@ -35,12 +35,19 @@ final class NewsfeedCodeCell: UITableViewCell {
         return view
     }()
     
-    let postlabel: UILabel = {
-       let label = UILabel()
-        label.numberOfLines = 0
-        label.font = Constants.postLabelFont
-        label.textColor = #colorLiteral(red: 0.227329582, green: 0.2323184013, blue: 0.2370472848, alpha: 1)
-        return label
+    let postlabel: UITextView = {
+       let textView = UITextView()
+        textView.font = Constants.postLabelFont
+        textView.isScrollEnabled = false
+        textView.isSelectable = true
+        textView.isUserInteractionEnabled = true
+        textView.isEditable = false
+        
+        let padding = textView.textContainer.lineFragmentPadding
+        textView.textContainerInset = UIEdgeInsets.init(top: 0, left: -padding, bottom: 0, right: -padding)
+        
+        textView.dataDetectorTypes = UIDataDetectorTypes.all
+        return textView
     }()
     
     let moreTextButton: UIButton = {
@@ -57,7 +64,7 @@ final class NewsfeedCodeCell: UITableViewCell {
     
     let postImageView: WebImageView = {
         let imageView = WebImageView()
-        imageView.backgroundColor = #colorLiteral(red: 0.8901960784, green: 0.8980392157, blue: 0.9098039216, alpha: 1)
+        imageView.backgroundColor = #colorLiteral(red: 0.8234507442, green: 0.3115251064, blue: 0.3296223879, alpha: 1)
         return imageView
     }()
     
@@ -207,6 +214,7 @@ final class NewsfeedCodeCell: UITableViewCell {
         overlayThirdLayerOnTopView() // третий слой на topView
         overlayThirdLayerOnBottomView() // третий слой на bottomView
         overlayFourthLayerOnBottomViewViews() // четвертый слой на bottomViewViews
+        
     }
     
     @objc func moreTextButtonTouch() {
@@ -239,8 +247,6 @@ final class NewsfeedCodeCell: UITableViewCell {
             galleryCollectionView.isHidden = false
             galleryCollectionView.frame = viewModel.sizes.attachmentFrame
             galleryCollectionView.set(photos: viewModel.photoAttachments)
-            
-            print("dsdsdsfere")
         }
         else {
             postImageView.isHidden = true
