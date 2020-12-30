@@ -36,6 +36,7 @@
 		527253FC257C0BB2003D4A79 /* InsetableTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 527253FB257C0BB2003D4A79 /* InsetableTextField.swift */; };
 		527253FF257C0BE8003D4A79 /* UserResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 527253FE257C0BE8003D4A79 /* UserResponse.swift */; };
 		527421DD2573BCAC0087CE70 /* WebImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 527421DC2573BCAC0087CE70 /* WebImageView.swift */; };
+		527F1EEB259CFB7800A27F67 /* CircleProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 527F1EEA259CFB7800A27F67 /* CircleProgressView.swift */; };
 		52863481257399F5005B58F8 /* NewsfeedScene.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 52863480257399F5005B58F8 /* NewsfeedScene.storyboard */; };
 		5286348525739AF5005B58F8 /* NewsfeedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5286348425739AF5005B58F8 /* NewsfeedCell.swift */; };
 		5286348825739B00005B58F8 /* NewsfeedCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5286348725739B00005B58F8 /* NewsfeedCell.xib */; };
@@ -79,6 +80,7 @@
 		527253FB257C0BB2003D4A79 /* InsetableTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsetableTextField.swift; sourceTree = "<group>"; };
 		527253FE257C0BE8003D4A79 /* UserResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserResponse.swift; sourceTree = "<group>"; };
 		527421DC2573BCAC0087CE70 /* WebImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebImageView.swift; sourceTree = "<group>"; };
+		527F1EEA259CFB7800A27F67 /* CircleProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleProgressView.swift; sourceTree = "<group>"; };
 		52863480257399F5005B58F8 /* NewsfeedScene.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = NewsfeedScene.storyboard; sourceTree = "<group>"; };
 		5286348425739AF5005B58F8 /* NewsfeedCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsfeedCell.swift; sourceTree = "<group>"; };
 		5286348725739B00005B58F8 /* NewsfeedCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NewsfeedCell.xib; sourceTree = "<group>"; };
@@ -171,6 +173,7 @@
 			children = (
 				5209962E25722EC70090F32E /* AuthViewController.swift */,
 				5209965525723E7A0090F32E /* AuthScene.storyboard */,
+				527F1EEA259CFB7800A27F67 /* CircleProgressView.swift */,
 			);
 			path = AuthScene;
 			sourceTree = "<group>";
@@ -397,6 +400,7 @@
 				5286348525739AF5005B58F8 /* NewsfeedCell.swift in Sources */,
 				52E9BDF6257CAF340025944E /* GradientView.swift in Sources */,
 				524C66542572D61600CE9C13 /* NewsfeedInteractor.swift in Sources */,
+				527F1EEB259CFB7800A27F67 /* CircleProgressView.swift in Sources */,
 				527253FC257C0BB2003D4A79 /* InsetableTextField.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
